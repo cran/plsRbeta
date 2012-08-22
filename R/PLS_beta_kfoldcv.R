@@ -10,6 +10,7 @@ PLS_beta_kfoldcv <- function(dataY,dataX,nt=2,limQ2set=.0975,modele="pls", famil
             random = FALSE
         }
     call <- match.call(expand.dots=FALSE)
+    nt <- eval(nt,parent.frame())
     if (is.null(modele) & !is.null(family)) {modele<-"pls-glm-family"}
     if (as.character(call["family"])=="NULL") {
         if (modele=="pls") {call$family<-NULL}
@@ -171,5 +172,6 @@ if (keepfolds) {results$folds <- folds_kfolds}
 if (keepdataY) {results$dataY_kfolds <- dataY_kfolds}
 if (modele=="pls-beta") {results$results_kfolds_phi <- respls_kfolds_phi}
 results$call <- call
+results$call$nt <- nt
 return(results)
 }

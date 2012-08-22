@@ -43,6 +43,7 @@ if(match("link",names(mf2), 0L)==0L){mf2$link<-"logit"} else {if(!(mf2$link %in%
 if(identical(control,list())) {mf2$control <- do.call("betareg.control", list())}
 if(is.null(mf2$control$hessian)) {mf2$control$hessian <- FALSE}
 if(mf2$control$phi) {mf2$control$phi=FALSE}
+if(missing(type)){mf2$type="ML"}
 }
 
 m <- match(c("formula", "data", "subset", "weights", "etastart", "mustart", "offset"), names(mf), 0L)
@@ -250,7 +251,9 @@ res$residYChapeau=rep(mean(RepY),nrow(ExpliX))}
 res$computed_nt <- 0
 break_nt <- FALSE
 break_nt_sparse <- FALSE
+break_nt_sparse1 <- FALSE
 break_nt_vc <- FALSE
+break_nt_betareg <- FALSE
 
 for (kk in 1:nt) {
 XXwotNA <- as.matrix(res$residXX)
@@ -395,8 +398,15 @@ assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     mf2[[2]]<-YwotNA~cbind(tts,XXwotNA[,jj])
     assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    tempww[jj] <- coef(eval(mf2, parent.frame(n=sys.nframe())))[kk+1]
+    temptempww <- try(coef(eval(mf2, parent.frame(n=sys.nframe())))[kk+1],silent=TRUE)
+    if(is.numeric(temptempww)){tempww[jj] <- temptempww} else {break_nt_betareg <- TRUE; break}
 }
+if(break_nt_betareg){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+
 XXwotNA[!XXNA] <- 0
 rm(jj,tts)}
 else {
@@ -411,11 +421,17 @@ assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     mf2[[2]]<-YwotNA~cbind(tts,XXwotNA[,jj])
     assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    tmww <- summary(eval(mf2, parent.frame(n=sys.nframe())))$coefficients$mean[kk+1,]
+    temptempww <- try(summary(eval(mf2, parent.frame(n=sys.nframe())))$coefficients$mean[kk+1,],silent=TRUE)
+    if(is.numeric(temptempww)){tmww <- temptempww} else {break_nt_betareg <- TRUE; break}
     tempww[jj] <- tmww[1]
     tempvalpvalstep[jj] <- tmww[4] 
     temppvalstep[jj] <- (tmww[4] < alpha.pvals.expli)
 }
+if(break_nt_betareg){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
 if(sparse&sparseStop){
       if(sum(temppvalstep)==0L){
         break_nt_sparse <- TRUE}
@@ -488,6 +504,40 @@ if(break_nt==TRUE) {res$computed_nt <- kk-1;break}
 }
 }
 
+
+assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tt<-cbind(res$tt,temptt)
+assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+if (kk==1) {
+mf2[[2]]<-YwotNA~1
+mf2$model<-TRUE
+mf2$control$hessian <- TRUE
+assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+coeftempconstbeta <- try(coef(eval(mf2, parent.frame(n=sys.nframe()))),silent=TRUE)
+mf2$control$hessian <- FALSE
+mf2$model<-FALSE
+if(!is.numeric(coeftempconstbeta)){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+rm(coeftempconstbeta)
+}
+mf2$model <- TRUE
+mf2$control$hessian <- TRUE
+mf2[[2]]<-YwotNA~tt
+coeftempregbeta <- try(coef(eval(mf2, parent.frame(n=sys.nframe()))),silent=TRUE)
+mf2$control$hessian <- FALSE
+mf2$model <- FALSE
+if(!is.numeric(coeftempregbeta)){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+rm(tt,envir=parent.frame(n=sys.nframe()))
+rm(tt)
+rm(YwotNA,envir=parent.frame(n=sys.nframe()))
+rm(coeftempregbeta)
 
 res$ww <- cbind(res$ww,tempww)
 res$wwnorm <- cbind(res$wwnorm,tempwwnorm)

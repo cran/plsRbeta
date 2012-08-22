@@ -250,22 +250,6 @@ flush(stderr()); flush(stdout())
 
 
 cleanEx()
-nameEx("plsRbeta-package")
-### * plsRbeta-package
-
-flush(stderr()); flush(stdout())
-
-### Name: plsRglm-package
-### Title: Partial least squares Regression for generalized linear models
-### Aliases: plsRglm-package
-### Keywords: package
-
-### ** Examples
-
-
-
-
-cleanEx()
 nameEx("plsRbeta")
 ### * plsRbeta
 
@@ -339,6 +323,22 @@ flush(stderr()); flush(stdout())
 data("GasolineYield",package="betareg")
 modpls <- plsRbeta(yield~.,data=GasolineYield,nt=3,modele="pls-beta")
 print(summary(modpls))
+
+
+
+cleanEx()
+nameEx("simul_data_UniYX_beta")
+### * simul_data_UniYX_beta
+
+flush(stderr()); flush(stdout())
+
+### Name: simul_data_UniYX_beta
+### Title: Data generating function for univariate beta plsR models
+### Aliases: simul_data_UniYX_beta
+### Keywords: datagen utilities
+
+### ** Examples
+
 
 
 

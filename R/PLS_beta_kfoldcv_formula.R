@@ -151,7 +151,7 @@ if (is.null(link)){link<-"logit"} else {if(!(link %in% c("logit", "probit", "clo
     if (as.character(call["sparse"])=="NULL") {call$sparse <- FALSE}
     if (as.character(call["sparseStop"])=="NULL") {call$sparseStop <- FALSE}
     if (as.character(call["naive"])=="NULL") {call$contrasts <- FALSE}
-    if (as.character(call["link"])=="NULL") {call$link <- logit}
+    if (as.character(call["link"])=="NULL") {call$link <- "logit"}
     if (as.character(call["link.phi"])=="NULL") {call$link.phi <- NULL}
     if (as.character(call["type"])=="NULL") {call$type <- "ML"}
     
@@ -269,6 +269,7 @@ if (!is.data.frame(dataX)) {dataX <- data.frame(dataX)}
                 mf2$weights <- weights
                 mf2$dataY <- dataY
                 mf2$dataX <- dataX
+                mf2$nt <- eval(mf2$nt,parent.frame())
                 mf2$dataPredictY <- dataX
 if (modele %in% c("pls-glm-family","pls-glm-Gamma","pls-glm-gaussian","pls-glm-inverse.gaussian","pls-glm-logistic","pls-glm-poisson")) {
 if(match("method",names(call), 0L)==0L){mf2$method<-"glm.fit"}
@@ -293,6 +294,7 @@ if(match("method",names(call), 0L)==0L){mf2$method<-"logistic"} else {if(!(call$
                   mf2$weights <- weights[-nofolds]
                   mf2$dataY <- dataY[-nofolds]
                   mf2$dataX <- dataX[-nofolds,]
+                  mf2$nt <- eval(mf2$nt,parent.frame())
                   mf2$dataPredictY <- dataX[nofolds,]
                   temptemp <- eval(mf2, parent.frame())
                   respls_kfolds[[nnkk]][[ii]] <- temptemp$valsPredict
@@ -310,5 +312,6 @@ if (keepfolds) {results$folds <- folds_kfolds}
 if (keepdataY) {results$dataY_kfolds <- dataY_kfolds}
 if (modele=="pls-beta") {results$results_kfolds_phi <- respls_kfolds_phi}
 results$call <- call
+results$call$nt <- mf2$nt
 return(results)
 }

@@ -126,6 +126,7 @@ res$residYChapeau=rep(mean(RepY),nrow(ExpliX))}
 res$computed_nt <- 0
 break_nt <- FALSE
 break_nt_vc <- FALSE
+break_nt_betareg <- FALSE
 
 for (kk in 1:nt) {
 
@@ -207,8 +208,14 @@ assign("tts", tts, envir=parent.frame(n=sys.nframe()))
 assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    tempww[jj] <- coef(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),link=link,link.phi=link.phi,type=type,phi=FALSE))[kk+1]
+    temptempww <- try(coef(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),link=link,link.phi=link.phi,type=type,phi=FALSE))[kk+1],silent=TRUE)
+    if(is.numeric(temptempww)){tempww[jj] <- temptempww} else {break_nt_betareg <- TRUE; break}
 }
+if(break_nt_betareg){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
 XXwotNA[!XXNA] <- 0
 rm(jj,tts)}
 
@@ -257,7 +264,28 @@ if(break_nt) {break}
 }
 }
 
-
+assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tt<-cbind(res$tt,temptt)
+assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+if (kk==1) {
+coeftempconstbeta <- try(coef(betareg:::betareg(YwotNA~1,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
+if(!is.numeric(coeftempconstbeta)){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+rm(coeftempconstbeta)
+}
+coeftempregbeta <- try(coef(betareg:::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
+if(!is.numeric(coeftempregbeta)){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+rm(tt,envir=parent.frame(n=sys.nframe()))
+rm(tt)
+rm(YwotNA,envir=parent.frame(n=sys.nframe()))
+rm(coeftempregbeta)
 
 
 res$ww <- cbind(res$ww,tempww)

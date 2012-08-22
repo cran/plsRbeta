@@ -17,6 +17,7 @@ if(any(apply(is.na(dataPredictY),MARGIN=1,"all"))){return(vector("list",0)); cat
 }
 if(missing(weights)){NoWeights=TRUE} else {if(all(weights==rep(1,length(dataY)))){NoWeights=TRUE} else {NoWeights=FALSE}}
 if(missing(method)){method="logistic"}
+if(missing(type)){method="ML"}
 if(any(is.na(dataX))) {na.miss.X <- TRUE} else na.miss.X <- FALSE
 if(any(is.na(dataY))) {na.miss.Y <- TRUE} else na.miss.Y <- FALSE
 if(any(is.na(dataPredictY))) {na.miss.PredictY <- TRUE} else {na.miss.PredictY <- FALSE}
@@ -131,7 +132,9 @@ res$residYChapeau=rep(mean(RepY),nrow(ExpliX))}
 res$computed_nt <- 0
 break_nt <- FALSE
 break_nt_sparse <- FALSE
+break_nt_sparse1 <- FALSE
 break_nt_vc <- FALSE
+break_nt_betareg <- FALSE
 
 for (kk in 1:nt) {
 XXwotNA <- as.matrix(res$residXX)
@@ -269,8 +272,15 @@ assign("tts", tts, envir=parent.frame(n=sys.nframe()))
 assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    tempww[jj] <- coef(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),link=link,link.phi=link.phi,type=type,phi=FALSE))[kk+1]
+    temptempww <- try(coef(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),link=link,link.phi=link.phi,type=type,phi=FALSE))[kk+1],silent=TRUE)
+    if(is.numeric(temptempww)){tempww[jj] <- temptempww} else {break_nt_betareg <- TRUE; break}
 }
+if(break_nt_betareg){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+
 XXwotNA[!XXNA] <- 0
 rm(jj,tts)}
 else {
@@ -283,11 +293,17 @@ assign("tts", tts, envir=parent.frame(n=sys.nframe()))
 assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    tmww <- summary(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),hessian=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type))$coefficients$mean[kk+1,]
+    temptempww <- try(summary(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),hessian=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type))$coefficients$mean[kk+1,],silent=TRUE)
+    if(is.numeric(temptempww)){tmww <- temptempww} else {break_nt_betareg <- TRUE; break}
     tempww[jj] <- tmww[1]
     tempvalpvalstep[jj] <- tmww[4] 
     temppvalstep[jj] <- (tmww[4] < alpha.pvals.expli)
 }
+if(break_nt_betareg){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
 if(sparse&sparseStop){
       if(sum(temppvalstep)==0L){
         break_nt_sparse <- TRUE}
@@ -359,13 +375,36 @@ if(break_nt==TRUE) {break}
 }
 
 
+if (modele %in% c("pls-beta")) {
+assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tt<-cbind(res$tt,temptt)
+assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+if (kk==1) {
+coeftempconstbeta <- try(coef(betareg:::betareg(YwotNA~1,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
+if(!is.numeric(coeftempconstbeta)){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+rm(coeftempconstbeta)
+}
+coeftempregbeta <- try(coef(betareg:::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
+if(!is.numeric(coeftempregbeta)){
+res$computed_nt <- kk-1
+cat(paste("Error in betareg found\n",sep=""))
+cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
+break}
+rm(tt,envir=parent.frame(n=sys.nframe()))
+rm(tt)
+rm(YwotNA,envir=parent.frame(n=sys.nframe()))
+rm(coeftempregbeta)
+}
+
 
 res$ww <- cbind(res$ww,tempww)
 res$wwnorm <- cbind(res$wwnorm,tempwwnorm)
 res$tt <- cbind(res$tt,temptt)       
 res$pp <- cbind(res$pp,temppp)   
-
-
 
 
 ##############################################

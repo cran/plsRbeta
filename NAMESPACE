@@ -18,6 +18,7 @@ export(plsRbetamodel.default      )
 export(plsRbetamodel.formula      ) 
 export(print.plsRbetamodel        ) 
 export(print.summary.plsRbetamodel) 
+export(simul_data_UniYX_beta      )
 export(summary.plsRbetamodel      ) 
 export(tilt.bootplsbeta           )
  
