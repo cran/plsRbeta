@@ -1,6 +1,11 @@
 # imports functions
 importFrom(mvtnorm,rmvnorm)
+import(betareg)
+import(MASS)
+import(Formula)
 import(boot)
+import(plsdof)
+import(plsRglm)
 
 
 # functions

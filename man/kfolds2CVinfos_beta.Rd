@@ -19,13 +19,14 @@ The Mclassed option should only set to \code{TRUE} if the response is binary.
   \item{\dots}{\dots}
   \item{list}{table of fit statistics for last group partition}
 }
-\references{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand, Myriam Maumy-Bertrand et Nicolas Meyer (2011). \enc{RÈgression}{R\'egression} \enc{BÍta}{B\^eta} PLS. \emph{Preprint}.
+\references{
+\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand, Nicolas Meyer, \enc{Mich√®le}{Mich\`ele} Beau-Faller, Karim El Bayed, Izzie-Jacques Namer, Myriam Maumy-Bertrand (2013). \enc{R√©gression}{R\'egression} \enc{B√™ta}{B\^eta} PLS. \emph{Journal de la \enc{Soci√©t√©}{Soci\'et'e} Fran√ßaise de Statistique}, \bold{154}(3):143-159.
+\url{http://smf4.emath.fr/Publications/JSFdS/154_3/html/}
 }
-\author{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand\cr
+\author{\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand\cr
 \email{frederic.bertrand@math.unistra.fr}\cr
 \url{http://www-irma.u-strasbg.fr/~fbertran/}
 }
-%\note{Use \code{\link{kfolds2CVinfos_beta}} and \code{\link{PLS_beta_kfoldcv}} instead.}
 \seealso{\code{\link[plsRglm]{kfolds2coeff}}, \code{\link[plsRglm]{kfolds2Pressind}}, \code{\link[plsRglm]{kfolds2Press}}, \code{\link[plsRglm]{kfolds2Mclassedind}} and \code{\link[plsRglm]{kfolds2Mclassed}} to extract and transforms results from kfold cross validation.}
 \examples{
 \dontrun{

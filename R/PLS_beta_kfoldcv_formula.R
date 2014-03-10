@@ -9,16 +9,15 @@ PLS_beta_kfoldcv_formula <- function(formula,data=NULL,nt=2,limQ2set=.0975,model
     mf$na.action <- na.pass    
 
 if (modele %in% c("pls-beta")) {
-library(betareg)
 oformula <- as.formula(formula)
-    formula <- Formula:::as.Formula(formula)
+    formula <- Formula::as.Formula(formula)
     if (length(formula)[2L] < 2L) {
-        formula <- Formula:::as.Formula(formula(formula), ~1)
+        formula <- Formula::as.Formula(formula(formula), ~1)
         simple_formula <- TRUE
     }
     else {
         if (length(formula)[2L] > 2L) {
-            formula <- Formula:::Formula(formula(formula, rhs = 1:2))
+            formula <- Formula::Formula(formula(formula, rhs = 1:2))
             warning("formula must not have more than two RHS parts")
         }
         simple_formula <- FALSE

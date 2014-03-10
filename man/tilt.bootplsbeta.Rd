@@ -5,7 +5,9 @@
   ~~ A (1-5 lines) description of what the function does. ~~
 }
 \usage{
-tilt.bootplsbeta(object, typeboot="plsmodel", statistic=coefs.plsRbeta, R=c(499, 250, 250), alpha=c(0.025, 0.975), sim="ordinary", stype="i", index=1)
+tilt.bootplsbeta(object, typeboot="plsmodel", statistic=coefs.plsRbeta, 
+R=c(499, 250, 250), alpha=c(0.025, 0.975), sim="ordinary", stype="i", 
+index=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,9 +30,11 @@ tilt.bootplsbeta(object, typeboot="plsmodel", statistic=coefs.plsRbeta, R=c(499,
   \item{comp2 }{Description of 'comp2'}
   ...
 }
-\references{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand, Myriam Maumy-Bertrand et Nicolas Meyer (2011). \enc{RÈgression}{R\'egression} \enc{BÍta}{B\^eta} PLS. \emph{Preprint}.
+\references{
+\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand, Nicolas Meyer, \enc{Mich√®le}{Mich\`ele} Beau-Faller, Karim El Bayed, Izzie-Jacques Namer, Myriam Maumy-Bertrand (2013). \enc{R√©gression}{R\'egression} \enc{B√™ta}{B\^eta} PLS. \emph{Journal de la \enc{Soci√©t√©}{Soci\'et'e} Fran√ßaise de Statistique}, \bold{154}(3):143-159.
+\url{http://smf4.emath.fr/Publications/JSFdS/154_3/html/}
 }
-\author{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand\cr
+\author{\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand\cr
 \email{frederic.bertrand@math.unistra.fr}\cr
 \url{http://www-irma.u-strasbg.fr/~fbertran/}
 }
@@ -40,7 +44,9 @@ tilt.bootplsbeta(object, typeboot="plsmodel", statistic=coefs.plsRbeta, R=c(499,
 \examples{\donttest{
 data("GasolineYield",package="betareg")
 
-GazYield.tilt.boot <- tilt.bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,modele="pls-beta"), statistic=coefs.plsRbeta, R=c(499, 100, 100), alpha=c(0.025, 0.975), sim="balanced", stype="i", index=1)
+GazYield.tilt.boot <- tilt.bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,
+modele="pls-beta"), statistic=coefs.plsRbeta, R=c(499, 100, 100), 
+alpha=c(0.025, 0.975), sim="balanced", stype="i", index=1)
 boxplots.bootpls(GazYield.tilt.boot,1:2)
 
 }

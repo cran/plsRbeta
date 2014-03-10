@@ -46,7 +46,7 @@ if (MClassed==FALSE) {
 
 if (as.character(pls_kfolds$call["modele"]) %in% c("pls-glm-family","pls-glm-Gamma","pls-glm-gaussian","pls-glm-inverse.gaussian","pls-glm-logistic","pls-glm-poisson")) {
 press_kfolds <- kfolds2Press(pls_kfolds)
-preChisq_kfolds <- plsRbeta:::kfolds2Chisq(pls_kfolds)
+preChisq_kfolds <- kfolds2Chisq(pls_kfolds)
 Q2Chisqcum_2=rep(NA, nt)
 CVinfos <- vector("list",length(pls_kfolds[[1]]))
 limQ2 <- rep(as.numeric(as.character(pls_kfolds$call["limQ2set"])),computed_nt)
@@ -76,7 +76,7 @@ if (MClassed==FALSE) {
 }
 
 if (as.character(pls_kfolds$call["modele"]) == "pls-glm-polr") {
-preChisq_kfolds <- plsRbeta:::kfolds2Chisq(pls_kfolds)
+preChisq_kfolds <- kfolds2Chisq(pls_kfolds)
 Q2Chisqcum_2=rep(NA, nt)
 CVinfos <- vector("list",length(pls_kfolds[[1]]))
 limQ2 <- rep(as.numeric(as.character(pls_kfolds$call["limQ2set"])),computed_nt)
@@ -107,7 +107,7 @@ if (MClassed==FALSE) {
 
 if (as.character(pls_kfolds$call["modele"]) %in% c("pls-beta")) {
 press_kfolds <- kfolds2Press(pls_kfolds)
-preChisq_kfolds <- plsRbeta:::kfolds2Chisq(pls_kfolds)
+preChisq_kfolds <- kfolds2Chisq(pls_kfolds)
 Q2Chisqcum_2=rep(NA, nt)
 CVinfos <- vector("list",length(pls_kfolds[[1]]))
 limQ2 <- rep(as.numeric(as.character(pls_kfolds$call["limQ2set"])),computed_nt)
@@ -186,7 +186,7 @@ if (MClassed==FALSE) {
 
 if (as.character(pls_kfolds$call["modele"]) %in% c("pls-glm-family","pls-glm-Gamma","pls-glm-gaussian","pls-glm-inverse.gaussian","pls-glm-logistic","pls-glm-poisson")) {
 press_kfolds <- kfolds2Press(pls_kfolds)
-preChisq_kfolds <- plsRbeta:::kfolds2Chisq(pls_kfolds)
+preChisq_kfolds <- kfolds2Chisq(pls_kfolds)
 Q2Chisqcum_2=rep(NA, nt)
 CVinfos <- vector("list",length(pls_kfolds[[1]]))
 limQ2 <- rep(as.numeric(as.character(pls_kfolds$call["limQ2set"])),computed_nt)
@@ -216,7 +216,7 @@ if (MClassed==FALSE) {
 }
 
 if (as.character(pls_kfolds$call["modele"]) == "pls-glm-polr") {
-preChisq_kfolds <- plsRbeta:::kfolds2Chisq(pls_kfolds)
+preChisq_kfolds <- kfolds2Chisq(pls_kfolds)
 Q2Chisqcum_2=rep(NA, nt)
 CVinfos <- vector("list",length(pls_kfolds[[1]]))
 limQ2 <- rep(as.numeric(as.character(pls_kfolds$call["limQ2set"])),computed_nt)
@@ -247,7 +247,7 @@ if (MClassed==FALSE) {
 
 if (as.character(pls_kfolds$call["modele"]) %in% c("pls-beta")) {
 press_kfolds <- kfolds2Press(pls_kfolds)
-preChisq_kfolds <- plsRbeta:::kfolds2Chisq(pls_kfolds)
+preChisq_kfolds <- kfolds2Chisq(pls_kfolds)
 Q2Chisqcum_2=rep(NA, nt)
 CVinfos <- vector("list",length(pls_kfolds[[1]]))
 limQ2 <- rep(as.numeric(as.character(pls_kfolds$call["limQ2set"])),computed_nt)

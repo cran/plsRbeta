@@ -15,9 +15,11 @@ This function provides a print method for the class \code{"plsRbetamodel"}
 \value{
 \code{NULL}
 }
-\references{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand, Myriam Maumy-Bertrand et Nicolas Meyer (2011). \enc{RÈgression}{R\'egression} \enc{BÍta}{B\^eta} PLS. \emph{Preprint}.
+\references{
+\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand, Nicolas Meyer, \enc{Mich√®le}{Mich\`ele} Beau-Faller, Karim El Bayed, Izzie-Jacques Namer, Myriam Maumy-Bertrand (2013). \enc{R√©gression}{R\'egression} \enc{B√™ta}{B\^eta} PLS. \emph{Journal de la \enc{Soci√©t√©}{Soci\'et'e} Fran√ßaise de Statistique}, \bold{154}(3):143-159.
+\url{http://smf4.emath.fr/Publications/JSFdS/154_3/html/}
 }
-\author{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand\cr
+\author{\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand\cr
 \email{frederic.bertrand@math.unistra.fr}\cr
 \url{http://www-irma.u-strasbg.fr/~fbertran/}
 }

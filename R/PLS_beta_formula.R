@@ -33,7 +33,6 @@ mf2[[1L]] <- as.name("polr")
 if(match("method",names(mf2), 0L)==0L){mf2$method<-"logistic"} else {if(!(mf2$method %in% c("logistic", "probit", "cloglog", "cauchit"))) {mf2$method<-"logistic"}}
 }
 if (modele %in% c("pls-beta")) {
-library(betareg)
 m2 <- match(c("formula","subset","weights","offset","link","link.phi","type","control"), names(mf2), 0L)
 mf2 <- mf2[c(1L, m2)]
 mf2$na.action <- na.exclude    
@@ -53,14 +52,14 @@ mf$na.action <- na.pass
 
 if (modele %in% c("pls-beta")) {
 oformula <- as.formula(formula)
-    formula <- Formula:::as.Formula(formula)
+    formula <- Formula::as.Formula(formula)
     if (length(formula)[2L] < 2L) {
-        formula <- Formula:::as.Formula(formula(formula), ~1)
+        formula <- Formula::as.Formula(formula(formula), ~1)
         simple_formula <- TRUE
     }
     else {
         if (length(formula)[2L] > 2L) {
-            formula <- Formula:::Formula(formula(formula, rhs = 1:2))
+            formula <- Formula::Formula(formula(formula, rhs = 1:2))
             warning("formula must not have more than two RHS parts")
         }
         simple_formula <- FALSE
@@ -350,7 +349,6 @@ if (modele %in% c("pls-glm-polr")) {
 YwotNA <- as.factor(YwotNA)
 if (!pvals.expli) {
 XXwotNA[!XXNA] <- NA
-library(MASS)
 tts <- res$tt
 for (jj in 1:(res$nc)) {
     mf2[[2]]<-YwotNA~cbind(tts,XXwotNA[,jj])
@@ -360,14 +358,13 @@ XXwotNA[!XXNA] <- 0
 rm(jj,tts)}
 else {
 XXwotNA[!XXNA] <- NA
-library(MASS)
 tts <- res$tt
 tempvalpvalstep <- rep(0,res$nc)
 temppvalstep <- rep(0,res$nc)
 mf2$Hess <- TRUE
 for (jj in 1:(res$nc)) {
     mf2[[2]]<-YwotNA~cbind(tts,XXwotNA[,jj])
-    tmww <- -1*MASS:::summary.polr(eval(mf2, parent.frame(n=sys.nframe())))$coefficients[kk,]
+    tmww <- -1*summary(eval(mf2, parent.frame(n=sys.nframe())))$coefficients[kk,]
     tempww[jj] <- tmww[1]
     tempvalpvalstep[jj] <- 2 * pnorm(-abs(tmww[3])) 
     temppvalstep[jj] <- (tempvalpvalstep[jj] < alpha.pvals.expli)
@@ -392,13 +389,13 @@ if (modele %in% c("pls-beta")) {
 if (!pvals.expli) {
 XXwotNA[!XXNA] <- NA
 tts <- res$tt
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tts", tts, envir=parent.frame(n=sys.nframe()))
-assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tts", tts, envir=parent.frame(n=sys.nframe()))
+#assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     mf2[[2]]<-YwotNA~cbind(tts,XXwotNA[,jj])
-    assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    temptempww <- try(coef(eval(mf2, parent.frame(n=sys.nframe())))[kk+1],silent=TRUE)
+    #assign("jj", jj, envir=parent.frame(n=sys.nframe()))
+    temptempww <- try(coef(eval(mf2))[kk+1],silent=FALSE) # , parent.frame(n=sys.nframe())
     if(is.numeric(temptempww)){tempww[jj] <- temptempww} else {break_nt_betareg <- TRUE; break}
 }
 if(break_nt_betareg){
@@ -415,13 +412,13 @@ tts <- res$tt
 tempvalpvalstep <- rep(0,res$nc)
 temppvalstep <- rep(0,res$nc)
 mf2$control$hessian <- TRUE
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tts", tts, envir=parent.frame(n=sys.nframe()))
-assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tts", tts, envir=parent.frame(n=sys.nframe()))
+#assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
     mf2[[2]]<-YwotNA~cbind(tts,XXwotNA[,jj])
-    assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    temptempww <- try(summary(eval(mf2, parent.frame(n=sys.nframe())))$coefficients$mean[kk+1,],silent=TRUE)
+    #assign("jj", jj, envir=parent.frame(n=sys.nframe()))
+    temptempww <- try(summary(eval(mf2))$coefficients$mean[kk+1,],silent=FALSE)
     if(is.numeric(temptempww)){tmww <- temptempww} else {break_nt_betareg <- TRUE; break}
     tempww[jj] <- tmww[1]
     tempvalpvalstep[jj] <- tmww[4] 
@@ -505,15 +502,15 @@ if(break_nt==TRUE) {res$computed_nt <- kk-1;break}
 }
 
 
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
 tt<-cbind(res$tt,temptt)
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
 if (kk==1) {
 mf2[[2]]<-YwotNA~1
 mf2$model<-TRUE
 mf2$control$hessian <- TRUE
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-coeftempconstbeta <- try(coef(eval(mf2, parent.frame(n=sys.nframe()))),silent=TRUE)
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+coeftempconstbeta <- try(coef(eval(mf2)),silent=FALSE)
 mf2$control$hessian <- FALSE
 mf2$model<-FALSE
 if(!is.numeric(coeftempconstbeta)){
@@ -526,7 +523,7 @@ rm(coeftempconstbeta)
 mf2$model <- TRUE
 mf2$control$hessian <- TRUE
 mf2[[2]]<-YwotNA~tt
-coeftempregbeta <- try(coef(eval(mf2, parent.frame(n=sys.nframe()))),silent=TRUE)
+coeftempregbeta <- try(coef(eval(mf2)),silent=FALSE)
 mf2$control$hessian <- FALSE
 mf2$model <- FALSE
 if(!is.numeric(coeftempregbeta)){
@@ -534,9 +531,9 @@ res$computed_nt <- kk-1
 cat(paste("Error in betareg found\n",sep=""))
 cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",sep=""))
 break}
-rm(tt,envir=parent.frame(n=sys.nframe()))
-rm(tt)
-rm(YwotNA,envir=parent.frame(n=sys.nframe()))
+#rm(tt,envir=parent.frame(n=sys.nframe()))
+#rm(tt)
+#rm(YwotNA,envir=parent.frame(n=sys.nframe()))
 rm(coeftempregbeta)
 
 res$ww <- cbind(res$ww,tempww)
@@ -680,7 +677,7 @@ if (modele %in% c("pls-glm-polr")) {
             diag(piVaryy[-length(piVaryy)])-piVaryy[-length(piVaryy)]%*%t(piVaryy[-length(piVaryy)])
             }
             Chisqcomp <- function(yichisq,pichisq) {#change 2010/12/29 solve -> ginv
-            t(yichisq[-length(yichisq)]-pichisq[-length(pichisq)])%*%MASS:::ginv(Varyy(pichisq))%*%(yichisq[-length(yichisq)]-pichisq[-length(pichisq)])
+            t(yichisq[-length(yichisq)]-pichisq[-length(pichisq)])%*%MASS::ginv(Varyy(pichisq))%*%(yichisq[-length(yichisq)]-pichisq[-length(pichisq)])
             }
             Chiscompmatrix <- function(rowspi,rowsyi) {
             sum(mapply(Chisqcomp,rowsyi,rowspi))
@@ -791,8 +788,8 @@ if (kk==1) {
 mf2[[2]]<-YwotNA~1
 mf2$model<-TRUE
 mf2$control$hessian <- TRUE
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-tempconstbeta <- eval(mf2, parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tempconstbeta <- eval(mf2)
 mf2$control$hessian <- FALSE
 mf2$model<-FALSE
 res$AIC <- AIC(tempconstbeta)
@@ -805,9 +802,9 @@ tt<-res$tt
 mf2$model <- TRUE
 mf2$control$hessian <- TRUE
 mf2[[2]]<-YwotNA~tt
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
-tempregbeta <- eval(mf2, parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+tempregbeta <- eval(mf2)
 mf2$control$hessian <- FALSE
 mf2$model <- FALSE
 rm(tt)
@@ -827,9 +824,9 @@ tt<-res$tt
 mf2$model <- TRUE
 mf2$control$hessian <- TRUE
 mf2[[2]]<-YwotNA~tt
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-tempregbeta <- eval(mf2, parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tempregbeta <- eval(mf2)
 mf2$control$hessian <- FALSE
 mf2$model <- FALSE
 rm(tt)
@@ -850,9 +847,9 @@ tt<-res$tt
 mf2$model <- TRUE
 mf2$control$hessian <- TRUE
 mf2[[2]]<-YwotNA~tt
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-tempregbeta <- eval(mf2, parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tempregbeta <- eval(mf2)
 mf2$control$hessian <- FALSE
 mf2$model <- FALSE
 rm(tt)
@@ -1515,7 +1512,7 @@ res$YChapeau <- as.matrix(predict(tempregbeta,type="response"))
 rownames(res$YChapeau) <- rownames(ExpliX)
 
 tt <- res$ttPredictY
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
 res$Std.ValsPredictY <- predict(tempregbeta,newdata=data.frame(tt))
 res$ValsPredictY <- predict(tempregbeta,newdata=data.frame(tt),type = "response")
 
@@ -1540,6 +1537,6 @@ colnames(res$tt) <- paste("Comp_",1:res$computed_nt)
 res$XXwotNA <- XXwotNA
 cat("****________________________________________________****\n")
 cat("\n")
-if(res$computed_nt>0 & modele=="pls-beta") {rm(jj,tt,tts,XXwotNA,YwotNA,envir=parent.frame(n=sys.nframe()))}
+#if(res$computed_nt>0 & modele=="pls-beta") {rm(jj,tt,tts,XXwotNA,YwotNA,envir=parent.frame(n=sys.nframe()))}
 return(res)
 }

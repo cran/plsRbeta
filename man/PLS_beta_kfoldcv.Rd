@@ -5,7 +5,11 @@
 This function implements kfold cross validation on complete or incomplete datasets for partial least squares regression generalized linear models
 }
 \usage{
-PLS_beta_kfoldcv(dataY, dataX, nt = 2, limQ2set = 0.0975, modele = "pls", family = NULL, K = nrow(dataX), NK = 1, grouplist = NULL, random = FALSE, scaleX = TRUE, scaleY = NULL, keepcoeffs = FALSE, keepfolds = FALSE, keepdataY = TRUE, keepMclassed=FALSE, tol_Xi = 10^(-12), weights, method,link=NULL,link.phi=NULL,type="ML")
+PLS_beta_kfoldcv(dataY, dataX, nt = 2, limQ2set = 0.0975, modele = "pls", 
+family = NULL, K = nrow(dataX), NK = 1, grouplist = NULL, random = FALSE, 
+scaleX = TRUE, scaleY = NULL, keepcoeffs = FALSE, keepfolds = FALSE, 
+keepdataY = TRUE, keepMclassed=FALSE, tol_Xi = 10^(-12), weights, 
+method,link=NULL,link.phi=NULL,type="ML")
 }
 \arguments{
   \item{dataY}{response (training) dataset}
@@ -80,9 +84,11 @@ Non-NULL weights can be used to indicate that different observations have differ
   }
   \item{call}{the call of the function}
 }
-\references{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand, Myriam Maumy-Bertrand et Nicolas Meyer (2011). \enc{RÈgression}{R\'egression} \enc{BÍta}{B\^eta} PLS. \emph{Preprint}.
+\references{
+\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand, Nicolas Meyer, \enc{Mich√®le}{Mich\`ele} Beau-Faller, Karim El Bayed, Izzie-Jacques Namer, Myriam Maumy-Bertrand (2013). \enc{R√©gression}{R\'egression} \enc{B√™ta}{B\^eta} PLS. \emph{Journal de la \enc{Soci√©t√©}{Soci\'et'e} Fran√ßaise de Statistique}, \bold{154}(3):143-159.
+\url{http://smf4.emath.fr/Publications/JSFdS/154_3/html/}
 }
-\author{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand\cr
+\author{\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand\cr
 \email{frederic.bertrand@math.unistra.fr}\cr
 \url{http://www-irma.u-strasbg.fr/~fbertran/}
 }

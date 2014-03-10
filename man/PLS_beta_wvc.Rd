@@ -5,7 +5,10 @@
 Light version of \code{PLS_beta} for cross validation purposes either on complete or incomplete datasets.
 }
 \usage{
-PLS_beta_wvc(dataY, dataX, nt = 2, dataPredictY = dataX, modele = "pls", family = NULL, scaleX = TRUE, scaleY = NULL, keepcoeffs = FALSE, keepstd.coeffs=FALSE, tol_Xi = 10^(-12), weights, method = "logistic",link=NULL,link.phi=NULL,type="ML")
+PLS_beta_wvc(dataY, dataX, nt = 2, dataPredictY = dataX, modele = "pls", 
+family = NULL, scaleX = TRUE, scaleY = NULL, keepcoeffs = FALSE, 
+keepstd.coeffs=FALSE, tol_Xi = 10^(-12), weights, method = "logistic",
+link=NULL,link.phi=NULL,type="ML")
 }
 \arguments{
   \item{dataY}{response (training) dataset}
@@ -57,9 +60,11 @@ Non-NULL weights can be used to indicate that different observations have differ
         i.e. \code{keepcoeffs=TRUE}.\cr
         \code{ncol(dataX) * 1} matrix of the coefficients of the the eXplanatory variables}
 }
-\references{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand, Myriam Maumy-Bertrand et Nicolas Meyer (2011). \enc{RÈgression}{R\'egression} \enc{BÍta}{B\^eta} PLS. \emph{Preprint}.
+\references{
+\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand, Nicolas Meyer, \enc{Mich√®le}{Mich\`ele} Beau-Faller, Karim El Bayed, Izzie-Jacques Namer, Myriam Maumy-Bertrand (2013). \enc{R√©gression}{R\'egression} \enc{B√™ta}{B\^eta} PLS. \emph{Journal de la \enc{Soci√©t√©}{Soci\'et'e} Fran√ßaise de Statistique}, \bold{154}(3):143-159.
+\url{http://smf4.emath.fr/Publications/JSFdS/154_3/html/}
 }
-\author{\enc{FrÈdÈric}{Fr\'ed\'eric} Bertrand\cr
+\author{\enc{Fr√©d√©ric}{Fr\'ed\'eric} Bertrand\cr
 \email{frederic.bertrand@math.unistra.fr}\cr
 \url{http://www-irma.u-strasbg.fr/~fbertran/}
 }

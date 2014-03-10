@@ -187,10 +187,9 @@ rm(jj)}
 if (modele %in% c("pls-glm-polr")) {
 YwotNA <- as.factor(YwotNA)
 XXwotNA[!XXNA] <- NA
-library(MASS)
 tts <- res$tt
 for (jj in 1:(res$nc)) {
-    tempww[jj] <- -1*MASS:::polr(YwotNA~cbind(tts,XXwotNA[,jj]),na.action=na.exclude,method=method)$coef[kk]
+    tempww[jj] <- -1*MASS::polr(YwotNA~cbind(tts,XXwotNA[,jj]),na.action=na.exclude,method=method)$coef[kk]
 }
 XXwotNA[!XXNA] <- 0
 rm(jj,tts)}
@@ -201,14 +200,13 @@ rm(jj,tts)}
 ##############################################
 if (modele %in% c("pls-beta")) {
 XXwotNA[!XXNA] <- NA
-library(betareg)
 tts <- res$tt
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tts", tts, envir=parent.frame(n=sys.nframe()))
-assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tts", tts, envir=parent.frame(n=sys.nframe()))
+#assign("XXwotNA", XXwotNA, envir=parent.frame(n=sys.nframe()))
 for (jj in 1:(res$nc)) {
-    assign("jj", jj, envir=parent.frame(n=sys.nframe()))
-    temptempww <- try(coef(betareg:::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),link=link,link.phi=link.phi,type=type,phi=FALSE))[kk+1],silent=TRUE)
+    #assign("jj", jj, envir=parent.frame(n=sys.nframe()))
+    temptempww <- try(coef(betareg::betareg(YwotNA~cbind(tts,XXwotNA[,jj]),link=link,link.phi=link.phi,type=type,phi=FALSE))[kk+1],silent=TRUE)
     if(is.numeric(temptempww)){tempww[jj] <- temptempww} else {break_nt_betareg <- TRUE; break}
 }
 if(break_nt_betareg){
@@ -264,11 +262,11 @@ if(break_nt) {break}
 }
 }
 
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
 tt<-cbind(res$tt,temptt)
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
 if (kk==1) {
-coeftempconstbeta <- try(coef(betareg:::betareg(YwotNA~1,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
+coeftempconstbeta <- try(coef(betareg::betareg(YwotNA~1,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
 if(!is.numeric(coeftempconstbeta)){
 res$computed_nt <- kk-1
 cat(paste("Error in betareg found\n",sep=""))
@@ -276,7 +274,7 @@ cat(paste("Warning only ",res$computed_nt," components were thus extracted\n",se
 break}
 rm(coeftempconstbeta)
 }
-coeftempregbeta <- try(coef(betareg:::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
+coeftempregbeta <- try(coef(betareg::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,phi=FALSE,link.phi=link.phi,type=type)),silent=TRUE)
 if(!is.numeric(coeftempregbeta)){
 res$computed_nt <- kk-1
 cat(paste("Error in betareg found\n",sep=""))
@@ -389,11 +387,11 @@ rownames(res$Std.Coeffs) <- c("Intercept",colnames(ExpliX))
 
 if (modele %in% c("pls-glm-polr")) {
 if (kk==1) {
-tempconstpolr <- MASS:::polr(YwotNA~1,na.action=na.exclude,Hess=TRUE,method=method)
+tempconstpolr <- MASS::polr(YwotNA~1,na.action=na.exclude,Hess=TRUE,method=method)
 res$Coeffsmodel_vals <- rbind(summary(tempconstpolr)$coefficients,matrix(rep(NA,3*nt),ncol=3))
 rm(tempconstpolr)
 tts <- res$tt
-tempregpolr <- MASS:::polr(YwotNA~tts,na.action=na.exclude,Hess=TRUE,method=method)
+tempregpolr <- MASS::polr(YwotNA~tts,na.action=na.exclude,Hess=TRUE,method=method)
 rm(tts)
 res$Coeffsmodel_vals <- cbind(res$Coeffsmodel_vals,rbind(summary(tempregpolr)$coefficients,matrix(rep(NA,3*(nt-kk)),ncol=3)))
 tempCoeffC <- -1*as.vector(tempregpolr$coef)
@@ -403,7 +401,7 @@ res$CoeffConstante <- tempCoeffConstante
 } else {
 if (!(na.miss.X | na.miss.Y)) {
 tts <- res$tt
-tempregpolr <- MASS:::polr(YwotNA~tts,na.action=na.exclude,Hess=TRUE,method=method)
+tempregpolr <- MASS::polr(YwotNA~tts,na.action=na.exclude,Hess=TRUE,method=method)
 rm(tts)
 res$Coeffsmodel_vals <- cbind(res$Coeffsmodel_vals,rbind(summary(tempregpolr)$coefficients,matrix(rep(NA,3*(nt-kk)),ncol=3)))
 tempCoeffC <- -1*as.vector(tempregpolr$coef)  
@@ -414,7 +412,7 @@ res$CoeffConstante <- cbind(res$CoeffConstante,tempCoeffConstante)
 else
 {
 tts <- res$tt
-tempregpolr <- MASS:::polr(YwotNA~tts,na.action=na.exclude,Hess=TRUE,method=method)
+tempregpolr <- MASS::polr(YwotNA~tts,na.action=na.exclude,Hess=TRUE,method=method)
 rm(tts)
 res$Coeffsmodel_vals <- cbind(res$Coeffsmodel_vals,rbind(summary(tempregpolr)$coefficients,matrix(rep(NA,3*(nt-kk)),ncol=3)))
 tempCoeffC <- -1*as.vector(tempregpolr$coef)  
@@ -436,14 +434,14 @@ rownames(res$Std.Coeffs) <- c(names(tempregpolr$zeta),colnames(ExpliX))
 ##############################################
 if (modele %in% c("pls-beta")) {
 if (kk==1) {
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-tempconstbeta <- betareg:::betareg(YwotNA~1,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+tempconstbeta <- betareg::betareg(YwotNA~1,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
 res$Coeffsmodel_vals <- rbind(summary(tempconstbeta)$coefficients$mean,matrix(rep(NA,4*nt),ncol=4))
 rm(tempconstbeta)
 tt<-res$tt
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
-tempregbeta <- betareg:::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+tempregbeta <- betareg::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
 rm(tt)
 res$Coeffsmodel_vals <- cbind(res$Coeffsmodel_vals,rbind(summary(tempregbeta)$coefficients$mean,matrix(rep(NA,4*(nt-kk)),ncol=4)))
 tempCoeffC <- as.vector(tempregbeta$coefficients$mean)
@@ -454,9 +452,9 @@ tempCoeffC <- tempCoeffC[-1]
 } else {
 if (!(na.miss.X | na.miss.Y)) {
 tt<-res$tt
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
-tempregbeta <- betareg:::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+tempregbeta <- betareg::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
 rm(tt)
 res$Coeffsmodel_vals <- cbind(res$Coeffsmodel_vals,rbind(summary(tempregbeta)$coefficients$mean,matrix(rep(NA,4*(nt-kk)),ncol=4)))
 tempCoeffC <- as.vector(tempregbeta$coefficients$mean)  
@@ -468,9 +466,9 @@ tempCoeffC <- tempCoeffC[-1]
 else
 {
 tt<-res$tt
-assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
-tempregbeta <- betareg:::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
+#assign("YwotNA", YwotNA, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+tempregbeta <- betareg::betareg(YwotNA~tt,hessian=TRUE,model=TRUE,link=link,link.phi=link.phi,type=type,phi=FALSE)
 rm(tt)
 res$Coeffsmodel_vals <- cbind(res$Coeffsmodel_vals,rbind(summary(tempregbeta)$coefficients$mean,matrix(rep(NA,4*(nt-kk)),ncol=4)))
 tempCoeffC <- as.vector(tempregbeta$coefficients$mean)  
@@ -841,7 +839,7 @@ attr(res$listValsPredictY,"modele") <- modele
 ##############################################
 if (modele %in% c("pls-beta")) {
 tt <- res$ttPredictY
-assign("tt", tt, envir=parent.frame(n=sys.nframe()))
+#assign("tt", tt, envir=parent.frame(n=sys.nframe()))
 res$listValsPredictY <- cbind(res$listValsPredictY,predict(tempregbeta,newdata=data.frame(tt),type = "response"))
 res$listValsPhisPredictY <- cbind(res$listValsPhisPredictY,predict(tempregbeta,newdata=data.frame(tt),type = "precision"))
 }
@@ -862,7 +860,7 @@ cat("____Component____",kk,"____\n")
 
 cat("****________________________________________________****\n")
 cat("\n")
-if(res$computed_nt>0 & modele=="pls-beta") {rm(jj,tt,tts,XXwotNA,YwotNA,envir=parent.frame(n=sys.nframe()))}
+#if(res$computed_nt>0 & modele=="pls-beta") {rm(jj,tt,tts,XXwotNA,YwotNA,envir=parent.frame(n=sys.nframe()))}
 
 if(modele %in% "pls-beta"){
 if (!keepcoeffs) {
