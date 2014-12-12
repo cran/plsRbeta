@@ -1,6 +1,6 @@
-a5acdcc2f2503843442cea0c07446dbf *DESCRIPTION
+a32d29de432009486549d42e738f08a0 *DESCRIPTION
 3a29f6c42a494918333f96bf2e86be9b *NAMESPACE
-dcac183c2823436a7f5c1781bff1b2f6 *NEWS
+7e3ed4a850e8ae4c42e53a7e05a8def1 *NEWS
 1b7944f8cdfef532878fe4d6063ba916 *R/PLS_beta.R
 b6872aefa9607cb92b8f5b76f626fb98 *R/PLS_beta_formula.R
 33138f7affe7152541c69f46fc440d06 *R/PLS_beta_kfoldcv.R
@@ -26,7 +26,7 @@ e422c4f0be52fb1a375a47aadd9b715a *man/PLS_beta.Rd
 721fc64a96bf78825d29bfbf75f305ae *man/PLS_beta_kfoldcv.Rd
 1b3abf1b3b12bf86f51fec50608d67db *man/PLS_beta_kfoldcv_formula.Rd
 5c25bf27765f596219f9df08eb1d9628 *man/PLS_beta_wvc.Rd
-ae1bcce14f501dd763725a82681a7fc7 *man/bootplsbeta.Rd
+67c241b6428d49ac34d6f1cc294a6c26 *man/bootplsbeta.Rd
 4ba241ce339730ab0e67247a1bcfa68f *man/coefs.plsRbeta.Rd
 66bf45b43e15052d6dfc0de72d28af88 *man/kfolds2CVinfos_beta.Rd
 8fe3de444290d6d8e80c7800b4425201 *man/kfolds2Chisq.Rd
@@ -37,4 +37,4 @@ e3d7fe33b7e86a03bfc8b789e8bed664 *man/print.plsRbetamodel.Rd
 7e251c25c1c4be77299e4e1bac8e45ad *man/print.summary.plsRbetamodel.Rd
 45667be1cddb2fe460544e3ca726b58d *man/simul_data_UniYX_beta.Rd
 3c95e82f155c3c686a48156d76f5b525 *man/summary.plsRbetamodel.Rd
-e60a92d5a0f1881a3b516571b7a4b551 *man/tilt.bootplsbeta.Rd
+6de71e173324f8b1d2d40022115a12b9 *man/tilt.bootplsbeta.Rd

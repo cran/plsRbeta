@@ -41,7 +41,7 @@ index=1)
 \note{ ~~some notes~~ 
 }
 \seealso{\code{\link[boot:boot]{tilt.boot}}}
-\examples{\donttest{
+\examples{\dontrun{
 data("GasolineYield",package="betareg")
 
 GazYield.tilt.boot <- tilt.bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,
