@@ -32,7 +32,7 @@ index=1)
 }
 \references{
 \enc{Frédéric}{Fr\'ed\'eric} Bertrand, Nicolas Meyer, \enc{Michèle}{Mich\`ele} Beau-Faller, Karim El Bayed, Izzie-Jacques Namer, Myriam Maumy-Bertrand (2013). \enc{Régression}{R\'egression} \enc{Bêta}{B\^eta} PLS. \emph{Journal de la \enc{Société}{Soci\'et'e} Française de Statistique}, \bold{154}(3):143-159.
-\url{http://smf4.emath.fr/Publications/JSFdS/154_3/html/}
+\url{http://publications-sfds.math.cnrs.fr/index.php/J-SFdS/article/view/215}
 }
 \author{\enc{Frédéric}{Fr\'ed\'eric} Bertrand\cr
 \email{frederic.bertrand@math.unistra.fr}\cr
@@ -41,7 +41,7 @@ index=1)
 \note{ ~~some notes~~ 
 }
 \seealso{\code{\link[boot:boot]{tilt.boot}}}
-\examples{\dontrun{
+\examples{\donttest{
 data("GasolineYield",package="betareg")
 
 GazYield.tilt.boot <- tilt.bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,
