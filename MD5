@@ -1,6 +1,6 @@
-015a157bb3de701263d2ea9deb280f38 *DESCRIPTION
-fc54405df273a2bed7a7600d9fa0be5f *NAMESPACE
-30c983d0f3082c83aeeaa129b013a771 *NEWS
+6106e91a45e4f6deca9d396f2021256e *DESCRIPTION
+c70f005b6732ff1c5ce69c22cd86ed4d *NAMESPACE
+3c16b4cbe35bf3c5a58157ccb22499f8 *NEWS
 1b7944f8cdfef532878fe4d6063ba916 *R/PLS_beta.R
 b6872aefa9607cb92b8f5b76f626fb98 *R/PLS_beta_formula.R
 33138f7affe7152541c69f46fc440d06 *R/PLS_beta_kfoldcv.R
@@ -12,7 +12,7 @@ b6872aefa9607cb92b8f5b76f626fb98 *R/PLS_beta_formula.R
 af1c2e8ed832d1769726c318fd4ce9b9 *R/kfolds2Chisq.R
 4e2f3576f726db73fc20ccb13da55811 *R/kfolds2Chisqind.R
 d8f0586f3ba790a095acf7fe7602d798 *R/permcoefs.plsRbeta.R
-af05f4ef60fec4555cba1b04fdc95493 *R/plsRbeta.R
+8a45bee1b0649323970b07302705dfb2 *R/plsRbeta.R
 f1b7ae8b2ce66ee1111c35dd981e867c *R/plsRbetamodel.default.R
 4c55eea368ec18550aab9251a86f5219 *R/plsRbetamodel.formula.R
 1c13ec2fe6c6e188f1205e89294d732b *R/print.plsRbetamodel.R
