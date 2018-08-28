@@ -1,6 +1,6 @@
 Package: plsRbeta
-Version: 0.2.2
-Date: 2018-06-11
+Version: 0.2.3
+Date: 2018-08-27
 Depends: R (>= 2.4.0)
 Imports: mvtnorm, boot, Formula, plsdof, MASS, plsRglm, betareg,
         methods
@@ -19,6 +19,6 @@ Encoding: latin1
 URL: http://www-irma.u-strasbg.fr/~fbertran/
 Classification/MSC: 62J12, 62J99
 NeedsCompilation: no
-Packaged: 2018-06-11 20:42:32 UTC; fbertran
+Packaged: 2018-08-27 14:17:15 UTC; fbertran
 Repository: CRAN
-Date/Publication: 2018-06-11 21:13:01 UTC
+Date/Publication: 2018-08-28 21:20:06 UTC
