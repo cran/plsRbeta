@@ -11,7 +11,7 @@
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/fbertran/plsRbeta/workflows/R-CMD-check/badge.svg)](https://github.com/fbertran/plsRbeta/actions)
-[![Codecov test coverage](https://codecov.io/gh/fbertran/plsRbeta/branch/master/graph/badge.svg)](https://codecov.io/gh/fbertran/plsRbeta?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/fbertran/plsRbeta/branch/master/graph/badge.svg)](https://app.codecov.io/gh/fbertran/plsRbeta?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/plsRbeta)](https://cran.r-project.org/package=plsRbeta)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/plsRbeta)](https://cran.r-project.org/package=plsRbeta)
 [![GitHub Repo stars](https://img.shields.io/github/stars/fbertran/plsRbeta?style=social)](https://github.com/fbertran/plsRbeta)
@@ -19,6 +19,10 @@
 <!-- badges: end -->
 
 The goal of plsRbeta is to provide Partial least squares Regression for (weighted) beta regression models (Bertrand 2013,  <http://journal-sfds.fr/article/view/215>) and k-fold cross-validation of such models using various criteria. It allows for missing data in the explanatory variables. Bootstrap confidence intervals constructions are also available.
+
+
+The package was accepted for presentation at the the useR! 2021 international conference. A technical note for the package was created and published on the website of the conference. It can be accessed  here: [https://user2021.r-project.org/participation/technical_notes/t138/technote/](https://user2021.r-project.org/participation/technical_notes/t138/technote/). It is not only an english translation of most of the contents of the original article that was published in French but it also contains the R code reproduce the two examples that were presented in the article.
+
 
 This website and these examples were created by F. Bertrand and M. Maumy-Bertrand.
 

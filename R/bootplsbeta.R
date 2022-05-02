@@ -30,6 +30,8 @@
 #' @param stype A character string indicating what the second argument of
 #' \code{statistic} represents. Possible values of stype are \code{"i"}
 #' (indices - the default), \code{"f"} (frequencies), or \code{"w"} (weights).
+#' @param stabvalue A value to hard threshold bootstrap estimates computed from
+#' atypical resamplings.
 #' @param \dots Other named arguments for \code{statistic} which are passed
 #' unchanged each time it is called. Any such arguments to \code{statistic}
 #' should follow the arguments which \code{statistic} is required to have for
@@ -38,8 +40,8 @@
 #' @return An object of class \code{"boot"}. See the Value part of the help of
 #' the function \code{\link[boot:boot]{boot}}.
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@math.unistra.fr}\cr
-#' \url{http://www-irma.u-strasbg.fr/~fbertran/}
+#' \email{frederic.bertrand@@utt.fr}\cr
+#' \url{https://fbertran.github.io/homepage/}
 #' @seealso \code{\link[boot:boot]{boot}}
 #' @references Frédéric Bertrand, Nicolas Meyer,
 #' Michèle Beau-Faller, Karim El Bayed, Izzie-Jacques Namer,
@@ -52,14 +54,42 @@
 #' \donttest{
 #' data("GasolineYield",package="betareg")
 #' 
-#' GazYield.boot <- bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,
-#' modele="pls-beta"), sim="ordinary", stype="i", R=250)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=1)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=2)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=3)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=4)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=5)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=6)
+#' # Std coefficients
+#' modplsbeta <- plsRbeta(yield~.,data=GasolineYield,nt=3, modele="pls-beta")
+#' GazYield.boot <- bootplsbeta(modplsbeta, sim="ordinary", stype="i", R=250)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=1)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=2)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=3)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=4)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=5)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=6)
+#' 
+#' plsRglm::boxplots.bootpls(GazYield.boot)
+#' plsRglm::confints.bootpls(GazYield.boot)
+#' plsRglm::plots.confints.bootpls(plsRglm::confints.bootpls(GazYield.boot))
+#' 
+#' #Raw coefficients
+#' modplsbeta <- plsRbeta(yield~.,data=GasolineYield,nt=3, modele="pls-beta")
+#' GazYield.boot.raw <- bootplsbeta(modplsbeta, sim="ordinary", stype="i", 
+#' R=250, statistic=coefs.plsRbeta.raw)
+#' boot::boot.ci(GazYield.boot.raw, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=1)
+#' boot::boot.ci(GazYield.boot.raw, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=2)
+#' boot::boot.ci(GazYield.boot.raw, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=3)
+#' boot::boot.ci(GazYield.boot.raw, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=4)
+#' boot::boot.ci(GazYield.boot.raw, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=5)
+#' boot::boot.ci(GazYield.boot.raw, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=6)
 #' 
 #' plsRglm::boxplots.bootpls(GazYield.boot)
 #' plsRglm::confints.bootpls(GazYield.boot)
@@ -74,12 +104,18 @@
 #' 
 #' GazYield.boot <- bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,
 #' modele="pls-beta"), sim="balanced", stype="i", R=250)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=1)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=2)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=3)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=4)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=5)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc","bca"), index=6)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=1)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=2)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=3)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=4)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=5)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc","bca"), index=6)
 #' 
 #' 
 #' plsRglm::boxplots.bootpls(GazYield.boot)
@@ -97,21 +133,29 @@
 #' 
 #' GazYield.boot <- bootplsbeta(plsRbeta(yield~.,data=GasolineYield,nt=3,
 #' modele="pls-beta"), sim="permutation", stype="i", R=250)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc"), index=1)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc"), index=2)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc"), index=3)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc"), index=4)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc"), index=5)
-#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), type = c("norm","basic","perc"), index=6)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc"), index=1)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc"), index=2)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc"), index=3)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc"), index=4)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc"), index=5)
+#' boot::boot.ci(GazYield.boot, conf = c(0.90,0.95), 
+#' type = c("norm","basic","perc"), index=6)
 #' plsRglm::boxplots.bootpls(GazYield.boot)
 #' plot(GazYield.boot)
 #' }
 #' 
-bootplsbeta <- function(object, typeboot="plsmodel", R=250, statistic=coefs.plsRbeta, sim="ordinary", stype="i", ...){
+bootplsbeta <- function(object, typeboot="plsmodel", R=250, statistic=NULL, sim="ordinary", stype="i", stabvalue=1e6, ...){
 callplsRbeta <- object$call
+maxcoefvalues <- stabvalue*abs(object$Coeffs)
 #dataset <- cbind(y = eval(callplsRbeta$dataY),eval(callplsRbeta$dataX))
 dataset <- cbind(y = object$dataY,object$dataX)
 nt <- eval(callplsRbeta$nt)
+ifbootfail <- as.matrix(as.numeric(ifelse(any(class(dataset[,1])=="factor"),rep(NA, ncol(dataset)+nlevels(dataset[,1])-1),rep(NA, ncol(dataset)))))
 if(!is.null(callplsRbeta$modele)){modele <- eval(callplsRbeta$modele)} else {modele <- "pls"}
 if(!is.null(callplsRbeta$family)){family <- eval(callplsRbeta$family)} else {family <- NULL}
 if(!is.null(callplsRbeta$method)){method <- eval(callplsRbeta$method)} else {method <- "logistic"}
@@ -120,8 +164,8 @@ if(!is.null(callplsRbeta$link.phi)){link.phi <- eval(callplsRbeta$link.phi)} els
 if(!is.null(callplsRbeta$type)){type <- eval(callplsRbeta$type)} else {type <- "ML"}
 if(!is.null(callplsRbeta$verbose)){verbose <- eval(callplsRbeta$verbose)} else {verbose <- TRUE}
 if(typeboot=="plsmodel"){
-temp.bootplsRbeta <- if(!(sim=="permutation")){boot(data=dataset, statistic=coefs.plsRbeta, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose,...)} else {
-boot(data=dataset, statistic=permcoefs.plsRbeta, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi, type=type, verbose=verbose)}
+temp.bootplsRbeta <- if(!(sim=="permutation")){if(is.null(statistic)){statistic=coefs.plsRbeta};boot(data=dataset, statistic=statistic, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose,...)} else {
+  if(is.null(statistic)){statistic=permcoefs.plsRbeta};boot(data=dataset, statistic=statistic, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi, type=type, verbose=verbose)}
 indices.temp.bootplsRbeta <- !is.na(temp.bootplsRbeta$t[,1])
 temp.bootplsRbeta$t=temp.bootplsRbeta$t[indices.temp.bootplsRbeta,]
 temp.bootplsRbeta$R=sum(indices.temp.bootplsRbeta)
@@ -129,8 +173,10 @@ temp.bootplsRbeta$call$R<-sum(indices.temp.bootplsRbeta)
 return(temp.bootplsRbeta)
 }
 if(typeboot=="fmodel_np"){
-temp.bootplsRbeta <- if(!(sim=="permutation")){boot(data=dataset, statistic=coefs.plsRbeta, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose,...)} else {
-boot(data=dataset, statistic=permcoefs.plsRbeta, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi, type=type, verbose=verbose)}
+  dataRepYtt <- cbind(y = object$RepY,object$tt)
+  wwetoile <- object$wwetoile
+  temp.bootplsRbeta <- if(!(sim=="permutation")){if(is.null(statistic)){statistic=coefs.plsRbetanp};boot(data=dataRepYtt, statistic=statistic, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, maxcoefvalues = maxcoefvalues[-(1:(length(object$Coeffs)-ncol(object$dataX)))], wwetoile = wwetoile, ifbootfail=ifbootfail, ...)} else {
+    if(is.null(statistic)){statistic=permcoefs.plsRbetanp};boot(data=dataset, statistic=statistic, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, maxcoefvalues = maxcoefvalues[-(1:(length(object$Coeffs)-ncol(object$dataX)))], wwetoile = wwetoile, ifbootfail=ifbootfail)}
 indices.temp.bootplsRbeta <- !is.na(temp.bootplsRbeta$t[,1])
 temp.bootplsRbeta$t=temp.bootplsRbeta$t[indices.temp.bootplsRbeta,]
 temp.bootplsRbeta$R=sum(indices.temp.bootplsRbeta)
@@ -138,8 +184,8 @@ temp.bootplsRbeta$call$R<-sum(indices.temp.bootplsRbeta)
 return(temp.bootplsRbeta)
 }
 if(typeboot=="fmodel_par"){
-temp.bootplsRbeta <- if(!(sim=="permutation")){boot(data=dataset, statistic=coefs.plsRbeta, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose,...)} else {
-boot(data=dataset, statistic=permcoefs.plsRbeta, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose)}
+temp.bootplsRbeta <- if(!(sim=="permutation")){if(is.null(statistic)){statistic=coefs.plsRbeta};boot(data=dataset, statistic=statistic, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose,...)} else {
+  if(is.null(statistic)){statistic=permcoefs.plsRbeta};boot(data=dataset, statistic=statistic, sim=sim, stype=stype, R=R, nt=nt, modele=modele, family=family, method=method, link=link, link.phi=link.phi,type=type, verbose=verbose)}
 indices.temp.bootplsRbeta <- !is.na(temp.bootplsRbeta$t[,1])
 temp.bootplsRbeta$t=temp.bootplsRbeta$t[indices.temp.bootplsRbeta,]
 temp.bootplsRbeta$R=sum(indices.temp.bootplsRbeta)
