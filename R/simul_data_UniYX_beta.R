@@ -21,7 +21,7 @@
 #' @param phi0 Simulation scheme "a" parameter
 #' @return \item{vector}{\eqn{(Y,X_1,\ldots,X_{totdim})}}
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@utt.fr}\cr
+#' \email{frederic.bertrand@@lecnam.net}\cr
 #' \url{https://fbertran.github.io/homepage/}
 #' @seealso \code{\link[plsRglm]{simul_data_UniYX}}
 #' @references Frédéric Bertrand, Nicolas Meyer,

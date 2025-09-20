@@ -40,7 +40,7 @@
 #' @return An object of class \code{"boot"}. See the Value part of the help of
 #' the function \code{\link[boot:boot]{boot}}.
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@utt.fr}\cr
+#' \email{frederic.bertrand@@lecnam.net}\cr
 #' \url{https://fbertran.github.io/homepage/}
 #' @seealso \code{\link[boot:boot]{boot}}
 #' @references Frédéric Bertrand, Nicolas Meyer,

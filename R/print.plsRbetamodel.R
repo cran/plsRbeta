@@ -7,7 +7,7 @@
 #' @param \dots not used
 #' @return \code{NULL}
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@utt.fr}\cr
+#' \email{frederic.bertrand@@lecnam.net}\cr
 #' \url{https://fbertran.github.io/homepage/}
 #' @seealso \code{\link{print}}
 #' @references Frédéric Bertrand, Nicolas Meyer,

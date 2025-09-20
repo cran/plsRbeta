@@ -171,7 +171,7 @@
 #' @return Depends on the model that was used to fit the model.
 #' @note Use \code{plsRbeta} instead.
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@utt.fr}\cr
+#' \email{frederic.bertrand@@lecnam.net}\cr
 #' \url{https://fbertran.github.io/homepage/}
 #' @seealso \code{\link[plsRglm]{plsR}} and \code{\link[plsRglm]{plsRglm}}
 #' @references Frédéric Bertrand, Nicolas Meyer,

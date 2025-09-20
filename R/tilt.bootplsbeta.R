@@ -47,7 +47,7 @@
 #' atypical resamplings.
 #' @return An object of class "boot".
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@utt.fr}\cr
+#' \email{frederic.bertrand@@lecnam.net}\cr
 #' \url{https://fbertran.github.io/homepage/}
 #' @seealso \code{\link[boot:boot]{tilt.boot}}
 #' @references Frédéric Bertrand, Nicolas Meyer,

@@ -23,7 +23,7 @@
 #' @param verbose should info messages be displayed ?
 #' @return Coefficients' Estimates on a sample.
 #' @author Frédéric Bertrand\cr
-#' \email{frederic.bertrand@@utt.fr}\cr
+#' \email{frederic.bertrand@@lecnam.net}\cr
 #' \url{https://fbertran.github.io/homepage/}
 #' @seealso See also \code{\link{bootplsbeta}}.
 #' @references Frédéric Bertrand, Nicolas Meyer,

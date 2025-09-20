@@ -118,7 +118,7 @@ Laboratory Systems}, \bold{64}:79-89. <doi:110.1016/S0169-7439(02)00051-5>
 }
 \author{
 Frédéric Bertrand\cr
-\email{frederic.bertrand@utt.fr}\cr
+\email{frederic.bertrand@lecnam.net}\cr
 \url{https://fbertran.github.io/homepage/}
 }
 \keyword{datagen}
